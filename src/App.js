@@ -88,9 +88,10 @@ export default class App extends React.Component {
         
         <button class="button button1" onClick={()=> window.open("http://localhost:8080/api/v1/generatePdfForDashboard", '_blank')}>Generate PDF</button>
         
+        <div className="barchart">
         <Bar
           width={50}
-          height={50}
+          height={20}
           data={this.state.chartData}
           options={{
             maintainAspectRatio: true,
@@ -104,9 +105,11 @@ export default class App extends React.Component {
               position: "right",
             },
           }}
-        />        
+        />       
+        </div> 
 
         <h2>Countries bordered by China</h2>
+        <div className="section">
         <table>
           <thead>
             <tr>
@@ -140,6 +143,7 @@ export default class App extends React.Component {
               })}
           </tbody>
         </table>
+        </div>
       </div>
     );
   }
