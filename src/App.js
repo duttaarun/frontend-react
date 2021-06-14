@@ -15,7 +15,12 @@ export default class App extends React.Component {
 
   componentDidMount() {
     Promise.all([
-      fetch(`${process.env.REACT_APP_API_URL}/getTopMostBorders`)
+      fetch(`${process.env.REACT_APP_API_URL}/getTopMostBorders`, {
+        method: "get",
+        headers: new Headers({
+          Authorization: "Basic " + process.env.REACT_APP_BASIC_AUTH,
+        }),
+      })
         .then((res) => res.json())
         .then(
           (result) => {
@@ -53,7 +58,12 @@ export default class App extends React.Component {
           }
         ),
 
-      fetch(`${process.env.REACT_APP_API_URL}/getChinaBorderList`)
+      fetch(`${process.env.REACT_APP_API_URL}/getChinaBorderList`, {
+        method: "get",
+        headers: new Headers({
+          Authorization: "Basic " + process.env.REACT_APP_BASIC_AUTH,
+        }),
+      })
         .then((res) => res.json())
         .then(
           (result) => {
