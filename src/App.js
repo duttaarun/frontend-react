@@ -15,7 +15,7 @@ export default class App extends React.Component {
 
   componentDidMount() {
     Promise.all([
-      fetch("http://localhost:8080/api/v1/getTopMostBorders")
+      fetch(`${process.env.REACT_APP_API_URL}/getTopMostBorders`)
         .then((res) => res.json())
         .then(
           (result) => {
@@ -45,9 +45,6 @@ export default class App extends React.Component {
               chartData: generatedChartState.countryList,
             });
           },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
           (error) => {
             this.setState({
               isLoaded: true,
@@ -56,7 +53,7 @@ export default class App extends React.Component {
           }
         ),
 
-      fetch("http://localhost:8080/api/v1/getChinaBorderList")
+      fetch(`${process.env.REACT_APP_API_URL}/getChinaBorderList`)
         .then((res) => res.json())
         .then(
           (result) => {
@@ -64,9 +61,6 @@ export default class App extends React.Component {
               chinaBorderData: result,
             });
           },
-          // Note: it's important to handle errors here
-          // instead of a catch() block so that we don't swallow
-          // exceptions from actual bugs in components.
           (error) => {
             this.setState({
               isLoaded: true,
@@ -79,79 +73,86 @@ export default class App extends React.Component {
 
   render() {
     return (
-      
       <div className="App">
         <div className="header">
           <h1 className="title">Demo Application</h1>
           <div className="links"></div>
         </div>
-        
-        <button class="button button1" onClick={()=> window.open("http://localhost:8080/api/v1/generatePdfForDashboard", '_blank')}>Generate PDF</button>
-        
+
+        <button
+          class="button button1"
+          onClick={() =>
+            window.open(
+              `${process.env.REACT_APP_API_URL}/generatePdfForDashboard`,
+              "_blank"
+            )
+          }
+        >
+          Generate PDF
+        </button>
+
         <div className="barchart">
-        <Bar
-          width={50}
-          height={20}
-          data={this.state.chartData}
-          options={{
-            maintainAspectRatio: true,
-            title: {
-              display: true,
-              text: "Countries with most border",
-              fontSize: 20,
-            },
-            legend: {
-              display: true,
-              position: "right",
-            },
-          }}
-        />       
-        </div> 
+          <Bar
+            width={50}
+            height={20}
+            data={this.state.chartData}
+            options={{
+              maintainAspectRatio: true,
+              title: {
+                display: true,
+                text: "Countries with most border",
+                fontSize: 20,
+              },
+              legend: {
+                display: true,
+                position: "right",
+              },
+            }}
+          />
+        </div>
 
         <h2>Countries bordered by China</h2>
         <div className="section">
-        <table>
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Region</td>
-              <td>Area</td>
-              <td>Population</td>
-              <td>Flag</td>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.chinaBorderData &&
-              this.state.chinaBorderData.map((listValue, index) => {
-                return (
-                  <tr key={index}>
-                    <td>{listValue.countryName}</td>
-                    <td>{listValue.region}</td>
-                    <td>{listValue.area}</td>
-                    <td>{listValue.population}</td>
-                    <td>
-                      {" "}
-                      <img
-                        src={listValue.flagSvgUrl}
-                        width="35px"
-                        height="25px"
-                        alt="Not Found"
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
-        </table>
+          <table>
+            <thead>
+              <tr>
+                <td>Name</td>
+                <td>Region</td>
+                <td>Area</td>
+                <td>Population</td>
+                <td>Flag</td>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.chinaBorderData &&
+                this.state.chinaBorderData.map((listValue, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{listValue.countryName}</td>
+                      <td>{listValue.region}</td>
+                      <td>{listValue.area}</td>
+                      <td>{listValue.population}</td>
+                      <td>
+                        {" "}
+                        <img
+                          src={listValue.flagSvgUrl}
+                          width="35px"
+                          height="25px"
+                          alt="Not Found"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          </table>
         </div>
       </div>
     );
   }
 
-  openInNewTab= (url) => {
-    console.log('yyy')
-    window.open(url, '_blank');
-   }
-
+  openInNewTab = (url) => {
+    console.log("yyy");
+    window.open(url, "_blank");
+  };
 }
-
