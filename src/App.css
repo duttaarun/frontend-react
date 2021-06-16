@@ -93,3 +93,7 @@ tr:nth-child(even) {
 .section {
   margin: 3%;
 }
+
+.loader {
+  margin-top: 20%;
+}
